@@ -105,6 +105,23 @@ public class ProfileController {
         }
     }
 
+    @PostMapping("/getGroups")
+    public ResponseEntity<Object> getGroups(
+            @RequestHeader(value = "profileEmail") String profileEmail
+    ) {
+        logger.info("get groups for profile request received");
+
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(
+                            profileCrud.getProfile(profileEmail).getGroups()
+                    );
+        } catch (ProfileException e) {
+            return ResponseAdapter.getResponse(HttpStatus.BAD_REQUEST, false, e.getMessage());
+        }
+    }
+
     @PostMapping("/grantAccess")
     public ResponseEntity<Object> grantAccess(
             @RequestHeader(value = "profileEmail") String profileEmail,
