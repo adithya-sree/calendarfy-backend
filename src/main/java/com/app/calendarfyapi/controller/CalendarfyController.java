@@ -25,7 +25,7 @@ public class CalendarfyController {
 
     @RequestMapping("/running")
     public ResponseEntity<Object> running() {
-        logger.info("Running check received");
+        logger.info("running check received");
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -46,6 +46,8 @@ public class CalendarfyController {
     @RequestMapping("/routes")
     public ResponseEntity<Object> routes() throws SQLException
     {
+        logger.info("routes request received");
+
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(
