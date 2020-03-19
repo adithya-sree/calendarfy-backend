@@ -105,7 +105,7 @@ public class ProfileController {
         }
     }
 
-    @PostMapping("/getGroups")
+    @GetMapping("/getGroups")
     public ResponseEntity<Object> getGroups(
             @RequestHeader(value = "profileEmail") String profileEmail
     ) {
