@@ -4,6 +4,7 @@ import com.app.calendarfyapi.common.CalendarfyConstants;
 import com.app.calendarfyapi.common.ResponseAdapter;
 import com.app.calendarfyapi.dao.crud.GroupCrud;
 import com.app.calendarfyapi.exception.GroupException;
+import com.app.calendarfyapi.exception.ProfileException;
 import com.app.calendarfyapi.model.mongo.Event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/group")
 public class GroupController {
 
@@ -84,6 +86,37 @@ public class GroupController {
         try {
             groupCrud.addEventToGroup(groupName, event);
             return ResponseAdapter.getResponse(HttpStatus.OK, true, CalendarfyConstants.UPDATE_GROUP_SUCCESS);
+        } catch (GroupException e) {
+            return ResponseAdapter.getResponse(HttpStatus.BAD_REQUEST, false, e.getMessage());
+        }
+    }
+
+    @GetMapping("/getUsers")
+    public ResponseEntity<Object> getUsers(
+            @RequestHeader(value = "groupName") String groupName
+    ) {
+        logger.info("get user request received");
+
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(groupCrud.getGroupUsers(groupName));
+        } catch (GroupException e) {
+            return ResponseAdapter.getResponse(HttpStatus.BAD_REQUEST, false, e.getMessage());
+        }
+    }
+
+    @GetMapping("/getOwner")
+    public ResponseEntity<Object> getOwner(
+            @RequestHeader(value = "groupName") String groupName
+
+    ) {
+        logger.info("get owner request received");
+
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(groupCrud.getGroupOwner(groupName));
         } catch (GroupException e) {
             return ResponseAdapter.getResponse(HttpStatus.BAD_REQUEST, false, e.getMessage());
         }

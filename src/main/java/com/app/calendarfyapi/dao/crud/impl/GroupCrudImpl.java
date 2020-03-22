@@ -76,6 +76,36 @@ public class GroupCrudImpl implements GroupCrud {
     }
 
     @Override
+    public String getGroupOwner(String groupName) throws GroupException {
+        logger.info("attempting to get group owner for group: " + groupName);
+
+        Group existingGroup = mongoGroupRepository.findFirstByGroupName(groupName);
+
+        if (existingGroup == null) {
+            logger.error("unable to get group owner for group: " + CalendarfyConstants.GROUP_DOES_NOT_EXIST);
+            throw new GroupException(CalendarfyConstants.GROUP_DOES_NOT_EXIST);
+        } else {
+            logger.info("found group: " + groupName + " returning owner");
+            return existingGroup.getGroupOwner();
+        }
+    }
+
+    @Override
+    public List<String> getGroupUsers(String groupName) throws GroupException {
+        logger.info("attempting to get group users for group: " + groupName);
+
+        Group existingGroup = mongoGroupRepository.findFirstByGroupName(groupName);
+
+        if (existingGroup == null) {
+            logger.error("unable to get group users for group: " + CalendarfyConstants.GROUP_DOES_NOT_EXIST);
+            throw new GroupException(CalendarfyConstants.GROUP_DOES_NOT_EXIST);
+        } else {
+            logger.info("found group: " + groupName + " returning users");
+            return existingGroup.getGroupUsers();
+        }
+    }
+
+    @Override
     public void addEventToGroup(String groupName, Event event) throws GroupException {
         logger.info("attempting to add event to group: " + groupName);
 

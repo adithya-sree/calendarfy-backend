@@ -8,6 +8,8 @@ import java.util.List;
 public interface GroupCrud {
     void createNewGroup(String groupName, String profileEmail) throws GroupException;
     List<Event> getGroupEvents(String groupName) throws GroupException;
+    String getGroupOwner(String groupName) throws GroupException;
+    List<String> getGroupUsers(String groupName) throws GroupException;
     void addEventToGroup(String groupName, Event event) throws GroupException;
     void removeEventFromGroup(String groupName, Event event) throws GroupException;
     void addUserToGroup(String groupName, String profileEmail) throws GroupException;
